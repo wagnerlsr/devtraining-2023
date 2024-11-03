@@ -1,0 +1,36 @@
+version: '3.1'
+
+services:
+  db:
+    build: .
+    container_name: devtraining-db
+    restart: always
+    ports:
+      - '5432:5432'
+    volumes:
+      - /home/wagner/work/postgres/devtraining:/varlib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=saopaulo
+      - POSTGRES_DB=devtraining
+
+  dbtest:
+    build: .
+    container_name: test-db
+    restart: always
+    ports:
+      - '5433:5432'
+    environment:
+      - POSTGRES_PASSWORD=saopaulo
+      - POSTGRES_DB=devtraining
+
+  mongodb:
+    container_name: mongodb-nestjs
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - /home/wagner/work/mongodb/nestjs:/data/db:rw
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: wagner
+      MONGO_INITDB_ROOT_PASSWORD: saopaulo
+      MONGO_INITDB_DATABASE: nestjs
